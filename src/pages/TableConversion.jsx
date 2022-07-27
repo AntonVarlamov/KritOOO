@@ -1,53 +1,40 @@
 import React, {useContext, useEffect, useState} from 'react';
-import TableCell from "../components/TableCell/TableCell";
 import {Context} from "../context/context";
+import TableCell from "../components/TableCell/TableCell";
 import bigRat from "big-rational";
 
-const TableMultiplication = () => {
+const TableConversion = () => {
   const startValue = [
-    {ratio: -9, resultant: "Gft3ng", source: "ft3ng"},
-    {ratio: -9, resultant: "Gtce", source: "tce"},
-    {ratio: -9, resultant: "Gtoe", source: "toe"},
-    {ratio: -6, resultant: "MMbtu", source: "btu"},
-    {ratio: -6, resultant: "Mj", source: "j"},
-    {ratio: -3, resultant: "Kboe", source: "boe"},
-    {ratio: -6, resultant: "Mtoe", source: "toe"},
-    {ratio: -12, resultant: "Twh", source: "wh"},
-    {ratio: -3, resultant: "Ktoe", source: "toe"},
-    {ratio: -9, resultant: "Gj", source: "j"},
-    {ratio: -6, resultant: "Mboe", source: "boe"},
-    {ratio: -6, resultant: "Mtce", source: "tce"},
-    {ratio: -9, resultant: "Gm3ng", source: "m3ng"},
-    {ratio: -9, resultant: "Bboe", source: "boe"},
-    {ratio: -15, resultant: "Qbtu", source: "btu"},
-    {ratio: -6, resultant: "Mm3ng", source: "m3ng"},
-    {ratio: -6, resultant: "Mft3ng", source: "ft3ng"},
-    {ratio: -9, resultant: "Gwh", source: "wh"},
-
+    {ratio: 751.4768963, resultant: "Mm3ng", source: "Mtce"},
+    {ratio: 0.301277062, resultant: "Twh", source: "Gft3ng"},
+    {ratio: 1055.060005, resultant: "Mj", source: "MMbtu"},
+    {ratio: 0.58000001, resultant: "Qbtu", source: "Bboe"},
+    {ratio: 1.4285714, resultant: "Gtce", source: "Gtoe"},
+    {ratio: 0.000277778, resultant: "Gwh", source: "Gj"},
+    {ratio: 6.8419054, resultant: "Kboe", source: "Ktoe"},
+    {ratio: 35.958043, resultant: "Gft3ng", source: "Gm3ng"}
   ]
   const [conversions, setConversions] = useState([...startValue])
   const [apply, setApply] = useState(false)
   const {conversion, multipliers} = useContext(Context)
 
   useEffect(() => {
-    conversions.forEach(item=>{
+    conversions.forEach(item => {
       conversion.addVertex(item.source)
       conversion.addVertex(item.resultant)
-      multipliers[item.source + item.resultant] =  new bigRat(10 ** item.ratio)
-      multipliers[item.resultant + item.source] = new bigRat(1).divide(new bigRat(10 ** item.ratio))
-
+      multipliers[item.source + item.resultant] = new bigRat(item.ratio)
+      multipliers[item.resultant + item.source] = new bigRat(1).divide(new bigRat(item.ratio))
       conversion.addEdge(item.resultant, item.source)
     })
-
   }, [conversions])
   return (
     <div className="container">
-      <div className="header">Таблица мультипликации единиц измерения</div>
+      <div className="header">Таблица конвертации единиц измерения</div>
       <div className="table-conversion">
         <div className="header-name">Наименование</div>
-        <div className="header-name">Расчетная ЕИ</div>
-        <div className="header-name">Степень</div>
-        <div className="header-name">Базовая ЕИ</div>
+        <div className="header-name">Исходная ЕИ</div>
+        <div className="header-name">Коэффициент</div>
+        <div className="header-name">Результирующая ЕИ</div>
         {conversions.map((item, id) =>
           <React.Fragment key={id}>
             <div className="header-name">{item.source}-->{item.resultant}</div>
@@ -105,4 +92,4 @@ const TableMultiplication = () => {
   );
 };
 
-export default TableMultiplication;
+export default TableConversion;

@@ -1,0 +1,15 @@
+.navBar{
+  padding: 5px;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.button{
+  text-decoration: none;
+  color: black;
+  padding: 5px;
+  height: 100%;
+  border: 1px solid black;
+  margin-right: 5px;
+}
